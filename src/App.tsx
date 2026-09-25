@@ -1,122 +1,125 @@
-import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import './App.css'
+import { useState } from 'react';
+import { AuthLayout } from './components/AuthLayout';
+import { LoginPage } from './components/LoginPage';
+import { RegisterPage } from './components/RegisterPage';
+import { ForgotPasswordModal } from './components/ForgotPasswordModal';
+import { CheckCircleIcon, SparklesIcon, CloseIcon } from './components/Icons';
+import './index.css';
 
-function App() {
-  const [count, setCount] = useState(0)
+interface ToastState {
+  show: boolean;
+  type: 'success' | 'info';
+  title: string;
+  message: string;
+}
+
+export function App() {
+  const [currentView, setCurrentView] = useState<'login' | 'register'>('login');
+  const [isForgotModalOpen, setIsForgotModalOpen] = useState(false);
+  const [forgotEmail, setForgotEmail] = useState('');
+  const [toast, setToast] = useState<ToastState>({
+    show: false,
+    type: 'success',
+    title: '',
+    message: '',
+  });
+
+  const triggerToast = (title: string, message: string, type: 'success' | 'info' = 'success') => {
+    setToast({
+      show: true,
+      type,
+      title,
+      message,
+    });
+
+    setTimeout(() => {
+      setToast((prev) => ({ ...prev, show: false }));
+    }, 4500);
+  };
+
+  const handleLoginSuccess = (email: string) => {
+    triggerToast(
+      'Signed In Successfully',
+      `Welcome back! Authenticated with ${email}. Terminal session active.`,
+      'success'
+    );
+  };
+
+  const handleSocialLogin = (provider: 'Google' | 'Microsoft') => {
+    triggerToast(
+      `${provider} Authentication`,
+      `Mock OAuth sign-in flow for ${provider} initialized.`,
+      'info'
+    );
+  };
+
+  const handleRegisterSuccess = (
+    fullName: string,
+    email: string,
+    accountType: 'customer' | 'staff',
+    role?: string
+  ) => {
+    const roleLabel = accountType === 'staff' && role ? ` (Staff - ${role.toUpperCase()})` : ' (Customer)';
+    triggerToast(
+      'Account Created Successfully',
+      `Welcome ${fullName}${roleLabel}! Your account for ${email} is ready.`,
+      'success'
+    );
+    setCurrentView('login');
+  };
+
+  const handleOpenForgotPassword = (email: string) => {
+    setForgotEmail(email);
+    setIsForgotModalOpen(true);
+  };
 
   return (
     <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.tsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+      <AuthLayout currentView={currentView} onChangeView={setCurrentView}>
+        {currentView === 'login' ? (
+          <LoginPage
+            onNavigateToRegister={() => setCurrentView('register')}
+            onOpenForgotPassword={handleOpenForgotPassword}
+            onLoginSuccess={handleLoginSuccess}
+            onSocialLogin={handleSocialLogin}
+          />
+        ) : (
+          <RegisterPage
+            onNavigateToLogin={() => setCurrentView('login')}
+            onRegisterSuccess={handleRegisterSuccess}
+          />
+        )}
+      </AuthLayout>
 
-      <div className="ticks"></div>
+      <ForgotPasswordModal
+        isOpen={isForgotModalOpen}
+        onClose={() => setIsForgotModalOpen(false)}
+        onSuccessToast={(msg) => triggerToast('Reset Email Dispatched', msg, 'info')}
+        initialEmail={forgotEmail}
+      />
 
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
+      {/* Floating Interactive Toast Feedback */}
+      {toast.show && (
+        <div className={`notification-toast toast-${toast.type}`} role="status">
+          <div className="toast-icon">
+            {toast.type === 'success' ? <CheckCircleIcon size={20} /> : <SparklesIcon size={20} />}
+          </div>
+          <div className="toast-body">
+            <h4 className="toast-title">{toast.title}</h4>
+            <p className="toast-message">{toast.message}</p>
+          </div>
+          <button
+            type="button"
+            className="toast-close"
+            onClick={() => setToast((prev) => ({ ...prev, show: false }))}
+            aria-label="Close notification"
+          >
+            <CloseIcon size={16} />
+          </button>
         </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
+      )}
     </>
-  )
+  );
 }
 
-export default App
+export default App;
