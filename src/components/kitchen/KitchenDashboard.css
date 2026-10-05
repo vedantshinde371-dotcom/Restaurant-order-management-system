@@ -1,0 +1,362 @@
+/* =========================================================
+   SAVORIA RESTAURANT - KITCHEN DISPLAY SYSTEM (KDS) STYLES
+   Executive Chef Pass, Hot Line, Prep Timers & Station Management
+   ========================================================= */
+
+:root {
+  --kds-bg-root: #0b0907;
+  --kds-bg-card: #140f0c;
+  --kds-bg-surface: #1b1510;
+  --kds-bg-elevated: #241a12;
+  --kds-border: #34271c;
+  --kds-border-gold: rgba(201, 137, 61, 0.4);
+  --kds-gold: #c9893d;
+  --kds-gold-glow: rgba(201, 137, 61, 0.25);
+  --kds-urgent-red: #ef4444;
+  --kds-warning-amber: #f59e0b;
+  --kds-success-emerald: #10b981;
+  --kds-text-primary: #f5ede4;
+  --kds-text-secondary: #e8dfd8;
+  --kds-text-muted: #8c7b6d;
+}
+
+/* Base resets & font families */
+.kitchen-portal-root {
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  color: #e8dfd8;
+  background-color: #0b0907;
+  min-height: 100vh;
+}
+
+/* Ticket Cards & Station Colors */
+.kds-ticket-card {
+  background-color: #140f0c;
+  border: 1px solid #34271c;
+  border-radius: 1rem;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.6);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.kds-ticket-card:hover {
+  border-color: #c9893d;
+  transform: translateY(-2px);
+  box-shadow: 0 15px 30px -5px rgba(0, 0, 0, 0.8), 0 0 20px rgba(201, 137, 61, 0.15);
+}
+
+/* Priority Card Highlights */
+.kds-priority-vip {
+  border-color: rgba(201, 137, 61, 0.8);
+  box-shadow: 0 0 25px rgba(201, 137, 61, 0.25);
+}
+
+.kds-priority-rush {
+  border-color: rgba(239, 68, 68, 0.8);
+  box-shadow: 0 0 25px rgba(239, 68, 68, 0.25);
+}
+
+.kds-priority-recook {
+  border-color: #f43f5e;
+  animation: pulseGlow 1.8s infinite;
+}
+
+.kds-delayed-card {
+  border-color: #ef4444;
+  animation: pulseGlow 2s infinite;
+}
+
+/* Station Badges */
+.station-pill-grill {
+  background-color: rgba(249, 115, 22, 0.15);
+  color: #fb923c;
+  border: 1px solid rgba(249, 115, 22, 0.4);
+}
+
+.station-pill-saute {
+  background-color: rgba(245, 158, 11, 0.15);
+  color: #fcd34d;
+  border: 1px solid rgba(245, 158, 11, 0.4);
+}
+
+.station-pill-pasta {
+  background-color: rgba(234, 179, 8, 0.15);
+  color: #fde047;
+  border: 1px solid rgba(234, 179, 8, 0.4);
+}
+
+.station-pill-cold {
+  background-color: rgba(6, 182, 212, 0.15);
+  color: #67e8f9;
+  border: 1px solid rgba(6, 182, 212, 0.4);
+}
+
+.station-pill-pastry {
+  background-color: rgba(168, 85, 247, 0.15);
+  color: #d8b4fe;
+  border: 1px solid rgba(168, 85, 247, 0.4);
+}
+
+.station-pill-pass {
+  background-color: rgba(16, 185, 129, 0.15);
+  color: #6ee7b7;
+  border: 1px solid rgba(16, 185, 129, 0.4);
+}
+
+/* Prep Timers */
+.prep-timer-normal {
+  background-color: rgba(16, 185, 129, 0.15);
+  color: #34d399;
+  border: 1px solid rgba(16, 185, 129, 0.4);
+}
+
+.prep-timer-warning {
+  background-color: rgba(245, 158, 11, 0.15);
+  color: #fbbf24;
+  border: 1px solid rgba(245, 158, 11, 0.5);
+  animation: pulseGlow 2s infinite;
+}
+
+.prep-timer-delayed {
+  background-color: rgba(239, 68, 68, 0.2);
+  color: #f87171;
+  border: 1px solid #ef4444;
+  animation: pulseGlow 1.2s infinite;
+}
+
+/* Heat Lamp Pass Effect */
+.heat-lamp-pass {
+  position: relative;
+  overflow: hidden;
+}
+
+.heat-lamp-pass::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #c9893d, #ef4444, #e5a962);
+  box-shadow: 0 0 15px rgba(201, 137, 61, 0.8);
+}
+
+/* Item Complete Strikethrough */
+.kitchen-item-row.completed {
+  opacity: 0.45;
+  background-color: rgba(16, 185, 129, 0.05);
+}
+
+.kitchen-item-row.completed .kitchen-item-name {
+  text-decoration: line-through;
+  color: #8c7b6d;
+}
+
+/* KDS Modals */
+.kitchen-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.kitchen-modal-card {
+  position: relative;
+  width: 100%;
+  background-color: #140f0c;
+  border: 1px solid rgba(201, 137, 61, 0.35);
+  border-radius: 1rem;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.9);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  color: #e8dfd8;
+}
+
+/* Load Meters */
+.load-bar-track {
+  width: 100%;
+  height: 6px;
+  background-color: #241a12;
+  border-radius: 9999px;
+  overflow: hidden;
+}
+
+.load-bar-fill {
+  height: 100%;
+  border-radius: 9999px;
+  transition: width 0.4s ease;
+}
+
+.load-fill-normal {
+  background: linear-gradient(90deg, #10b981, #34d399);
+}
+
+.load-fill-busy {
+  background: linear-gradient(90deg, #f59e0b, #fbbf24);
+}
+
+.load-fill-critical {
+  background: linear-gradient(90deg, #ef4444, #f87171);
+}
+
+/* =========================================================
+   KDS SIDEBAR & NAVIGATION STYLES
+   ========================================================= */
+
+.kds-app-layout {
+  display: flex;
+  min-height: 100vh;
+  background-color: #0c0907;
+  color: #f5ede4;
+  overflow-x: hidden;
+}
+
+.kds-sidebar {
+  width: 280px;
+  background: linear-gradient(180deg, #140f0c 0%, #0e0a08 100%);
+  border-right: 1px solid rgba(201, 137, 61, 0.25);
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 30;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+}
+
+.kds-sidebar.collapsed {
+  width: 80px;
+}
+
+.kds-sidebar-header {
+  padding: 20px 18px 16px;
+  border-bottom: 1px solid rgba(201, 137, 61, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.kds-sidebar-nav {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.kds-nav-section-title {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #8c7b6d;
+  padding: 12px 10px 4px;
+}
+
+.kds-nav-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: #b8a69b;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: left;
+}
+
+.kds-nav-btn:hover {
+  background: rgba(201, 137, 61, 0.08);
+  color: #f5ede4;
+  border-color: rgba(201, 137, 61, 0.2);
+}
+
+.kds-nav-btn.active {
+  background: linear-gradient(90deg, rgba(201, 137, 61, 0.2) 0%, rgba(201, 137, 61, 0.05) 100%);
+  border-color: rgba(201, 137, 61, 0.5);
+  color: #fce7cf;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4), inset 3px 0 0 #c9893d;
+}
+
+.kds-nav-btn-inner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.kds-nav-badge {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 9999px;
+  background: rgba(201, 137, 61, 0.2);
+  color: #e5a962;
+  border: 1px solid rgba(201, 137, 61, 0.4);
+}
+
+.kds-sidebar-footer {
+  padding: 14px 12px;
+  border-top: 1px solid rgba(201, 137, 61, 0.2);
+  background: #0f0a07;
+}
+
+.kds-main-viewport {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 100vh;
+  background: #0c0907;
+}
+
+/* Checklist & Ready Dishes Scroll & Expansion */
+.kds-checklist-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  overflow: visible;
+}
+
+.kds-checklist-scroll {
+  max-height: 520px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(201, 137, 61, 0.35) transparent;
+  padding-right: 2px;
+}
+
+.kds-checklist-scroll::-webkit-scrollbar {
+  width: 5px;
+}
+
+.kds-checklist-scroll::-webkit-scrollbar-track {
+  background: rgba(20, 15, 12, 0.4);
+  border-radius: 9999px;
+}
+
+.kds-checklist-scroll::-webkit-scrollbar-thumb {
+  background: rgba(201, 137, 61, 0.4);
+  border-radius: 9999px;
+}
+
+.kds-checklist-scroll::-webkit-scrollbar-thumb:hover {
+  background: rgba(201, 137, 61, 0.7);
+}
+

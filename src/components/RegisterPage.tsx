@@ -28,15 +28,22 @@ interface RegisterErrors {
 
 interface RegisterPageProps {
   onNavigateToLogin: () => void;
-  onRegisterSuccess: (fullName: string, email: string, accountType: AccountType, role?: StaffRole) => void;
+  onRegisterSuccess: (
+    fullName: string,
+    email: string,
+    accountType: AccountType,
+    role?: StaffRole,
+    password?: string,
+    phoneNumber?: string
+  ) => void;
 }
 
 export const RegisterPage: React.FC<RegisterPageProps> = ({
   onNavigateToLogin,
   onRegisterSuccess,
 }) => {
-  const [accountType, setAccountType] = useState<AccountType>('customer');
-  const [staffRole, setStaffRole] = useState<StaffRole>('chef');
+  const [accountType, setAccountType] = useState<AccountType>('staff');
+  const [staffRole, setStaffRole] = useState<StaffRole>('waiter');
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
@@ -97,7 +104,9 @@ export const RegisterPage: React.FC<RegisterPageProps> = ({
         fullName,
         email,
         accountType,
-        accountType === 'staff' ? staffRole : undefined
+        accountType === 'staff' ? staffRole : undefined,
+        password,
+        phoneNumber
       );
     }, 700);
   };
@@ -154,10 +163,10 @@ export const RegisterPage: React.FC<RegisterPageProps> = ({
           <div className="staff-roles-grid">
             <button
               type="button"
-              className={`role-select-card ${staffRole === 'chef' ? 'selected' : ''}`}
+              className={`role-select-card ${accountType === 'staff' && staffRole === 'chef' ? 'selected' : ''}`}
               onClick={() => {
                 setStaffRole('chef');
-                if (accountType !== 'staff') setAccountType('staff');
+                setAccountType('staff');
               }}
             >
               <div className="role-icon">
@@ -168,10 +177,10 @@ export const RegisterPage: React.FC<RegisterPageProps> = ({
 
             <button
               type="button"
-              className={`role-select-card ${staffRole === 'waiter' ? 'selected' : ''}`}
+              className={`role-select-card ${accountType === 'staff' && staffRole === 'waiter' ? 'selected' : ''}`}
               onClick={() => {
                 setStaffRole('waiter');
-                if (accountType !== 'staff') setAccountType('staff');
+                setAccountType('staff');
               }}
             >
               <div className="role-icon">
@@ -182,10 +191,10 @@ export const RegisterPage: React.FC<RegisterPageProps> = ({
 
             <button
               type="button"
-              className={`role-select-card ${staffRole === 'cashier' ? 'selected' : ''}`}
+              className={`role-select-card ${accountType === 'staff' && staffRole === 'cashier' ? 'selected' : ''}`}
               onClick={() => {
                 setStaffRole('cashier');
-                if (accountType !== 'staff') setAccountType('staff');
+                setAccountType('staff');
               }}
             >
               <div className="role-icon">
@@ -196,10 +205,10 @@ export const RegisterPage: React.FC<RegisterPageProps> = ({
 
             <button
               type="button"
-              className={`role-select-card ${staffRole === 'manager' ? 'selected' : ''}`}
+              className={`role-select-card ${accountType === 'staff' && staffRole === 'manager' ? 'selected' : ''}`}
               onClick={() => {
                 setStaffRole('manager');
-                if (accountType !== 'staff') setAccountType('staff');
+                setAccountType('staff');
               }}
             >
               <div className="role-icon">
